@@ -5,12 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 </head>
 <body>
     <h2>JS Objects recap</h2>
 
+    Add product <br>
+
+    ID: <input id="in-id"><br>
+    Name: <input id="in-productname"><br>
+    Cost: <input id="in-prodcost"><br>
+    <button id="add-prod">Add product</button>
+
+    <br>
+    <ul id="lista-produse">
+
+    </ul>
+
     <script>
-    
+
+        // function constructor
+        // this <--- !!!!
+        // o sa fie folosita cu new
+        // e.g. var temp = new Product(100, 'test', 30.30);
+        function Product(x, y, z){
+            this.id = x;
+            this.name = y;
+            this.cost = z;
+            this.description = 'THIS IS A PRODUCT OR WHATEVS';
+        }
+
+
+        var produse = [];
+
+        // git add, git commit, git push
+        function getProductFromHtml(){
+            var id = parseInt($('#in-id').val());
+            var name = $('#in-productname').val(); 
+            // TODO: daca name este format doar din numere, stop the workflow (ca mai jos la cost)
+            var cost = parseFloat($('#in-prodcost').val());
+
+            console.log('cost is: ', cost);
+
+            if(cost < 0){ // conditie de oprire
+                alert('invalid cost!')
+                return;
+            }
+
+            // TODO: daca id-ul sau numele sau price-ul este empty, stop the script
+
+            var temp = new Product(id, name, cost);
+            console.log('temp: ', temp);
+
+            produse.push(temp);
+
+            $('#lista-produse').html(''); // intai golim lista (<ul></ul>)
+            for(let prod of produse){ // luam tot ce e in array-ul produse si punem sub forma de <li></li> in lista
+                $('#lista-produse').append("<li>" + prod.id + " " + prod.name +"<button id='"+prod.id+"' class='del-prod'>Delete</button></li>");
+            }
+            $('.del-prod').click(function(){
+                
+                console.log('produsul exact: ' + $(this).attr('id'));
+                // TODO: daca putem sa stergem din array-ul produse produsul in dreptul caruia am dat click pe 'delete button'
+                console.log('should delete a product from ', produse);
+            });
+            console.log('PRODUSE SO FAR: ', produse);
+
+            // TODO: dupa ce adaugam un produs in array ar trebui sa resetam form-ul
+
+
+        }
+
+
+        $('#add-prod').click(getProductFromHtml);
+    </script>
+
+    <hr>
+
+    <button id="click-me">Click me</button>
+
+    <script>
+
+        var numarCurent = 0;
+
+        function numara(){
+            
+            numarCurent++;
+            console.log(numarCurent);
+        }
+
+        $('#click-me').click(numara);
     </script>
 </body>
 </html>
